@@ -1,0 +1,35 @@
+{
+  "name": "mutagen",
+  "version": "0.0.0",
+  "description": "JS library to iterate through any collection based on mutable generators",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^1.9.2",
+    "gulp": "^3.8.8",
+    "gulp-jshint": "^1.8.6",
+    "gulp-mocha": "^1.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VicNumber21/mutagen.git"
+  },
+  "keywords": [
+    "collection",
+    "iterate",
+    "generator",
+    "mutable"
+  ],
+  "author": "Victor Portnov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VicNumber21/mutagen/issues"
+  },
+  "homepage": "https://github.com/VicNumber21/mutagen"
+}
