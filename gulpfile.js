@@ -2,7 +2,25 @@ var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
 var bench = require('gulp-bench');
+var parseArgs = require('minimist');
+var _ = require('underscore');
 
+
+// Utils
+var benchSources = function (basePath, defaultBench, suffix) {
+  var argv = parseArgs(process.argv.slice(3));
+
+  var tests = _(argv.s).isString()? [argv.s]:
+              _(argv.s).isArray()?  argv.s:
+                                    [defaultBench];
+
+  return tests.map(function (test) {
+    return basePath + test + suffix;
+  });
+};
+
+
+// Tasks
 gulp.task('default', ['test']);
 
 gulp.task('lint', function () {
@@ -18,11 +36,11 @@ gulp.task('test', ['lint'], function () {
 });
 
 gulp.task('bench', function () {
-  return gulp.src('./test/bench/compare/*.js')
+  return gulp.src(benchSources('./test/bench/compare/', '**', '/*.js'))
              .pipe(bench());
 });
 
 gulp.task('profile', function () {
-  return gulp.src('./test/bench/profile/*.js')
+  return gulp.src(benchSources('./test/bench/profile/', '*' ,'.js'))
              .pipe(bench());
 });

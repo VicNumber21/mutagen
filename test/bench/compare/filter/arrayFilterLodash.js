@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var arrayFilter = require('../helpers/arrayFilter');
+var arrayFilter = require('../../helpers/arrayFilter');
 
 var data = arrayFilter.data;
 var pred = arrayFilter.pred;

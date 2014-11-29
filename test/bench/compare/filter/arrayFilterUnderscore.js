@@ -1,19 +1,19 @@
-var _ = require('lodash');
-var arrayFilter = require('../helpers/arrayFilter');
+var _ = require('underscore');
+var arrayFilter = require('../../helpers/arrayFilter');
 
 var data = arrayFilter.data;
 var pred = arrayFilter.pred;
 var test = arrayFilter.test;
 
 var etalon = function () {
-  return data.filter(pred);
+  return _.filter(data, pred);
 };
 
 
 module.exports = {
-  name: '"Array filter: Mutagen vs native"',
+  name: '"Array filter: Mutagen vs underscore"',
   tests: {
-    'Native': function () {
+    'Underscore': function () {
       var result = etalon();
     },
     'Mutagen': function () {

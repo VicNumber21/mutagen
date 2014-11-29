@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var arrayMap = require('../helpers/arrayMap');
+var arrayMap = require('../../helpers/arrayMap');
 
 var data = arrayMap.data;
 var mapFn = arrayMap.mapFn;

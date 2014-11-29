@@ -6,7 +6,7 @@ for (var i = 0; i < 100; ++i)
 
 var mapFn = function (x) {
   return 2*x;
-}
+};
 
 module.exports = {
   data: data,
