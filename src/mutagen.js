@@ -1,4 +1,12 @@
-var Mutagen = {};
+var api = require('./api');
+require('./generators');
+require('./mutators');
+require('./appenders');
+require('./core');
+
+var Mutagen = {
+  for: api.generators
+};
 
 var Skip = {};
 var End = {};
@@ -115,3 +123,37 @@ Mutagen.mutateObject = Mutagen.Control.iterationBuilder(Mutagen.Options.object);
 
 
 module.exports = Mutagen;
+
+
+//TODO new syntax test
+//var result1 = Mutagen.for.item.from.array([1, 2, 3])
+//                         .filter(function (x) { return x > 0; })
+//                         .map(function (x) { return 2*x; })
+//                     .put.into.array();
+//
+//var result2 = Mutagen.for.item.and.key.from.object({a:1, b:2, c:3})
+//                         .filter(function (item) { return item.x > 0; })
+//                         .map(function (item) { return {key: item.key, x: 2*item.x}; })
+//                     .put.into.object();
+//
+//var result3 = Mutagen.for.item.from.object({a:1, b:2, c:3})
+//                         .filter(function (x) { return x > 0; })
+//                         .map(function (x) { return 2*x; })
+//                     .put.into.array();
+//
+//var customCollection;
+//var result4 = Mutagen.for.gen(function () { /* general implementation; return item; */ })
+//                         .filter(function (x) { return x > 0; })
+//                         .map(function (x) { return 2*x; })
+//                     .put.into(function (item) { /* general appender */ });
+//
+//var result5 = Mutagen.for.array([1, 2, 3])
+//                         .filter(function (x) { return x > 0; })
+//                         .map(function (x) { return 2*x; })
+//                         .reduce(0, function (acc, x) { return acc + x; })
+//                         .last();// TODO should be better way to specify that reduce either produce collection or not
+//
+//var result6 = Mutagen.for.gen(function () { return 5; }) //infinite sequence
+//                         .filter(function (x) { return x > 0; })
+//                         .map(function (x) { return 2*x; })
+//                         .gen(); //modified generator
