@@ -1,7 +1,7 @@
 var gulp = require('gulp');
 var jshint = require('gulp-jshint');
 var mocha = require('gulp-mocha');
-var bench = require('gulp-bench');
+var bench = require('gulp-benchmark');
 var parseArgs = require('minimist');
 var _ = require('underscore');
 
@@ -36,11 +36,15 @@ gulp.task('test', ['lint'], function () {
 });
 
 gulp.task('bench', function () {
-  return gulp.src(benchSources('./test/bench/compare/', '**', '/*.js'))
-             .pipe(bench());
+  return gulp.src(benchSources('./test/bench/compare/', '*', '.js'))
+             .pipe(bench({
+               reporters: bench.reporters.etalon('Mutagen API')
+             }));
 });
 
 gulp.task('profile', function () {
   return gulp.src(benchSources('./test/bench/profile/', '*' ,'.js'))
-             .pipe(bench());
+             .pipe(bench({
+               reporters: bench.reporters.fastest()
+             }));
 });

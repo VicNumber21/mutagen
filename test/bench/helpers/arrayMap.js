@@ -10,8 +10,5 @@ var mapFn = function (x) {
 
 module.exports = {
   data: data,
-  mapFn: mapFn,
-  test: function () {
-    return Mutagen.mutateArray(data, [Mutagen.Mutator.map(mapFn)]);
-  }
+  mapFn: mapFn
 };

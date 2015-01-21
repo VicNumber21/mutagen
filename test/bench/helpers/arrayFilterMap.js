@@ -1,5 +1,3 @@
-var Mutagen = require('../../../src/mutagen');
-
 var data = [];
 for (var i = 0; i < 100; ++i)
   data.push(i);
@@ -15,11 +13,5 @@ var mapFn = function (x) {
 module.exports = {
   data: data,
   pred: pred,
-  mapFn: mapFn,
-  test: function () {
-    return Mutagen.mutateArray(data, [
-      Mutagen.Mutator.filter(pred),
-      Mutagen.Mutator.map(mapFn)
-    ]);
-  }
+  mapFn: mapFn
 };
