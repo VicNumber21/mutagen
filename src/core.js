@@ -1,12 +1,14 @@
-var Skip = {};
-var End = {};
-
-Core = {
-  End: End,
-  Skip: Skip,
+var Core = {
+  End: {},
+  Skip: {},
 
   iterationBuilder: function (options) {
-    //TODO ^^^ do I need it?
+    //TODO rename Core to Control
+    //TODO remove iteration builder but create another object Iterator or Runner
+    //TODO the runner object should have method like setGen, setTarget and so on and run
+    //TODO the runner in api but check if it does not make things to slow
+    //TODO to test it make api2 first with copy/paste; then choose the fastest
+    //TODO IMPORTANT do not play in the best designer game if it make things slower!!!
     var empty = options.empty;
     var generator = options.generator;
     var appender = options.appender;
@@ -16,11 +18,11 @@ Core = {
       target = target || empty();
 
       var gen = generator(source);
-      var mutator = Mutagen.Control.compose([].concat(mutators, [appender(target)]));
-      var mutant = Mutagen.Control.mutate(gen, mutator);
+      var mutator = Core.compose([].concat(mutators, [appender(target)]));
+      var mutant = Core.mutate(gen, mutator);
 
       var ret = target;
-      for (var it = mutant(); it !== End; it = mutant()) {
+      for (var it = mutant(); it !== Core.End; it = mutant()) {
         ret = it;
       }
 
@@ -31,8 +33,9 @@ Core = {
   compose: function (mutators) {
     return function (item) {
       for (var i = 0; i < mutators.length; ++i) {
-        if (Skip === item || End === item)
+        if (Core.Skip === item || Core.End === item) {
           break;
+        }
 
         item = mutators[i](item);
       }

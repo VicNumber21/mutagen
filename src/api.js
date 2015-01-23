@@ -27,7 +27,9 @@ var api = {
 
     last.in = {};
     last.in[name] = function () {
-      //TODO how to make new instance of current for each iteration to prevent re-writing it
+      //TODO to make current unique for each generator, mutators should be a constructor of object
+      // concrete mutators should be added to prototype
+      // run should be move into it
       api.current = {
         gen: gen.apply(null, arguments)
       };
