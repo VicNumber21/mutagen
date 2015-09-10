@@ -1,8 +1,7 @@
-var Core = require('./core');
+var Runner = require('./runner');
 
 var api = {
   generators: {},
-  mutators: {},
 
   addGenerator: function (name, path, gen) {
     if (typeof name !== 'string' || name.length === 0)
@@ -25,16 +24,8 @@ var api = {
       last = last[link];
     }
 
-    last.in = {};
-    last.in[name] = function () {
-      //TODO to make current unique for each generator, mutators should be a constructor of object
-      // concrete mutators should be added to prototype
-      // run should be move into it
-      api.current = {
-        gen: gen.apply(null, arguments)
-      };
-
-      return api.mutators;
+    last[name] = function () {
+      return new Runner(gen.apply(null, arguments));
     };
   },
 
@@ -48,14 +39,7 @@ var api = {
     if (typeof options !== 'undefined' && typeof options !== 'object')
       throw new Error('Options must be object or undefined');
 
-    options = options || {};
-
-    api.mutators[name] = function () {
-      var mutators = api.current.mutators = api.current.mutators || [];
-      mutators.push(mutator.apply(null, arguments));
-
-      return options.final? api.run(): api.mutators;
-    };
+    Runner.addMutator(name, mutator, options || {});
   },
 
   addAppender: function (name, appender, options) {
@@ -68,40 +52,12 @@ var api = {
 
     options = options || {};
 
-    api.mutators.put.into[name] = function (target) {
-      target = target || options.empty();
-
-      return api.mutators.put.into(appender, target);
-    };
-  },
-
-  run: function () {
-    var mutator = Core.compose(api.current.mutators);
-    var mutant = Core.mutate(api.current.gen, mutator);
-
-    var ret = api.current.target;
-    for (var it = mutant(); it !== Core.End; it = mutant()) {
-      ret = it;
-    }
-
-    return ret;
+    Runner.addAppender(name, appender, options || {});
   }
 };
 
-api.mutators.put = {
-  into: function (appender, target) {
-    if (typeof target !== 'undefined') {
-      appender = appender(target);
-    }
-
-    api.current.target = target;
-
-    var mutators = api.current.mutators = api.current.mutators || [];
-    mutators.push(appender);
-
-    return api.run();
-  }
-};
-
+require('./generators')(api);
+require('./mutators')(api);
+require('./appenders')(api);
 
 module.exports = api;

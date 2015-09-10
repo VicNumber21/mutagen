@@ -6,34 +6,33 @@ var Spec = {
       name: 'Map array',
       expected: [2, 4, 8],
       actual: function () {
-        return Mutagen.mutateArray([1, 2, 4], [
-          Mutagen.Mutator.map(function (x) {
-            return 2*x;
-          })
-        ]);
+        return Mutagen.for.value.fromArray([1, 2, 4])
+                      .map(function (x) {
+                        return 2*x;
+                      })
+                      .toArray();
       }
     }, {
       name: 'Reduce array',
-      expected: [1, 3, 7], //TODO it is weird to have array; most of people want value 7 here
+      expected: 7,
       actual: function () {
-        return Mutagen.mutateArray([1, 2, 4], [
-          Mutagen.Mutator.reduce(0, function (acc, x) {
-            return acc + x;
-          })
-        ]);
+        return Mutagen.for.value.fromArray([1, 2, 4])
+                      .reduceFin(0, function (acc, x) {
+                        return acc + x;
+                      });
       }
     }, {
       name: 'filterMap array',
-      expected: [2, 8], //TODO it is weird to have array; most of people want value 7 here
+      expected: [2, 8],
       actual: function () {
-        return Mutagen.mutateArray([1, 2, 4], [
-          Mutagen.Mutator.filter(function (x) {
-            return x !== 2;
-          }),
-          Mutagen.Mutator.map(function (x) {
-            return 2*x;
-          })
-        ]);
+        return Mutagen.for.value.fromArray([1, 2, 4])
+                      .filter(function (x) {
+                        return x !== 2;
+                      })
+                      .map(function (x) {
+                        return 2*x;
+                      })
+                      .toArray();
       }
     }
   ]

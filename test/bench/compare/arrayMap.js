@@ -12,9 +12,9 @@ var coreTest = function () {
 };
 
 var apiTest = function () {
-  return Mutagen.for.value.in.array(data)
+  return Mutagen.for.value.fromArray(data)
     .map(mapFn)
-    .put.into.array();
+    .toArray();
 };
 
 var lodashCore = function () {

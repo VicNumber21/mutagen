@@ -12,9 +12,9 @@ var coreTest = function () {
 };
 
 var apiTest = function () {
-  return Mutagen.for.value.in.array(data)
+  return Mutagen.for.value.fromArray(data)
     .filter(pred)
-    .put.into.array();
+    .toArray();
 };
 
 var lodashCore = function () {
@@ -68,7 +68,7 @@ module.exports = {
       var result = underscoreCore();
     },
     'Lodash Chain': function () {
-      var result = lodashCore();
+      var result = lodashChain();
     },
     'Underscore Chain': function () {
       var result = underscoreChain();
