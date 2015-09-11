@@ -1,4 +1,6 @@
 var Mutagen = require('../../../src/mutagen');
+var expect = require('chai').expect;
+
 
 var _l = require('lodash');
 var _u = require('underscore');
@@ -6,6 +8,8 @@ var arrayFilter = require('../helpers/arrayFilter');
 
 var data = arrayFilter.data;
 var pred = arrayFilter.pred;
+var etalon = arrayFilter.etalon;
+var actual;
 
 var coreTest = function () {
   return Mutagen.mutateArray(data, [Mutagen.Mutator.filter(pred)]);
@@ -56,28 +60,32 @@ module.exports = {
   name: 'Array filter',
   tests: {
     'Mutagen Core': function () {
-      var result = coreTest();
+      actual = coreTest();
     },
     'Mutagen API': function () {
-      var result = apiTest();
+      actual = apiTest();
     },
     'Lodash Core': function () {
-      var result = lodashCore();
+      actual = lodashCore();
     },
     'Underscore Core': function () {
-      var result = underscoreCore();
+      actual = underscoreCore();
     },
     'Lodash Chain': function () {
-      var result = lodashChain();
+      actual = lodashChain();
     },
     'Underscore Chain': function () {
-      var result = underscoreChain();
+      actual = underscoreChain();
     },
     'Native': function () {
-      var result = native();
+      actual = native();
     },
     'Pure JS': function () {
-      var result = pureJS();
+      actual = pureJS();
     }
+  },
+  onComplete: function () {
+    expect(actual).to.be.deep.equal(etalon);
+    console.info('               \\/\\/\\/ ----> OK');
   }
 };

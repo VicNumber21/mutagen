@@ -8,7 +8,12 @@ var mapFn = function (x) {
   return 2*x;
 };
 
+var etalon = [];
+for (var i = 0; i < 100; ++i)
+  etalon.push(2*i);
+
 module.exports = {
   data: data,
-  mapFn: mapFn
+  mapFn: mapFn,
+  etalon: etalon
 };

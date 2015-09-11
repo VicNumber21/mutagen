@@ -10,8 +10,13 @@ var mapFn = function (x) {
   return 2*x;
 };
 
+var etalon = [];
+for (var i = 0; i < 100; i += 3)
+  etalon.push(2*i);
+
 module.exports = {
   data: data,
   pred: pred,
-  mapFn: mapFn
+  mapFn: mapFn,
+  etalon: etalon
 };
