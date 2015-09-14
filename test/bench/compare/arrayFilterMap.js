@@ -1,96 +1,59 @@
 var Mutagen = require('../../../src/mutagen');
-var expect = require('chai').expect;
+var arrayFilterMap = require('../helpers/arrayFilterMap');
+var createTest = require('../helpers/compareFactory');
 
 var _l = require('lodash');
 var _u = require('underscore');
-var arrayFilterMap = require('../helpers/arrayFilterMap');
 
 var data = arrayFilterMap.data;
 var mapFn = arrayFilterMap.mapFn;
 var pred = arrayFilterMap.pred;
-var etalon = arrayFilterMap.etalon;
-var actual;
-
-var coreTest = function () {
-  return Mutagen.mutateArray(data, [
-    Mutagen.Mutator.filter(pred),
-    Mutagen.Mutator.map(mapFn)
-  ]);
-};
-
-var apiTest = function () {
-  return Mutagen.for.value.fromArray(data)
-    .filter(pred)
-    .map(mapFn)
-    .toArray();
-};
-
-var lodashCore = function () {
-  return _l.map(_l.filter(data, pred), mapFn);
-};
-
-var underscoreCore = function () {
-  return _u.map(_u.filter(data, pred), mapFn);
-};
-
-var lodashChain = function () {
-  return _l(data).filter(pred).map(mapFn).value();
-};
-
-var underscoreChain = function () {
-  return _u.chain(data).filter(pred).map(mapFn).value();
-};
-
-var native = function () {
-  return data.filter(pred).map(mapFn);
-};
-
-var pureJS = function () {
-  var result = [];
-  var length = data.length;
-
-  for (var i = 0; i < length; ++i) {
-    var x = data[i];
-
-    if (pred(x)) {
-      result.push(mapFn(x));
-    }
-  }
-
-  return result;
-};
 
 
-module.exports = {
+module.exports = createTest({
   name: 'Array filter map',
+  etalon: arrayFilterMap.etalon,
   tests: {
     'Mutagen Core': function () {
-      actual = coreTest();
+      return Mutagen.mutateArray(data, [
+        Mutagen.Mutator.filter(pred),
+        Mutagen.Mutator.map(mapFn)
+      ]);
     },
     'Mutagen API': function () {
-      actual = apiTest();
+      return Mutagen.for.value.fromArray(data)
+        .filter(pred)
+        .map(mapFn)
+        .toArray();
     },
     'Lodash Core': function () {
-      actual = lodashCore();
+      return _l.map(_l.filter(data, pred), mapFn);
     },
     'Underscore Core': function () {
-      actual = underscoreCore();
+      return _u.map(_u.filter(data, pred), mapFn);
     },
     'Lodash Chain': function () {
-      actual = lodashChain();
+      return _l(data).filter(pred).map(mapFn).value();
     },
     'Underscore Chain': function () {
-      actual = underscoreChain();
+      return _u.chain(data).filter(pred).map(mapFn).value();
     },
     'Native': function () {
-      actual = native();
+      return data.filter(pred).map(mapFn);
     },
     'Pure JS': function () {
-      actual = pureJS();
+      var result = [];
+      var length = data.length;
+
+      for (var i = 0; i < length; ++i) {
+        var x = data[i];
+
+        if (pred(x)) {
+          result.push(mapFn(x));
+        }
+      }
+
+      return result;
     }
-  },
-  onComplete: function () {
-    expect(actual).to.be.deep.equal(etalon);
-    console.info('               \\/\\/\\/ ----> OK');
   }
-};
+});
