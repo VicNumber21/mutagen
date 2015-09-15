@@ -1,6 +1,6 @@
 var Mutagen = require('../../../src/mutagen');
 var objectFilter = require('../helpers/objectFilter');
-var createTest = require('../helpers/compareFactory');
+var createBench = require('../helpers/createBench');
 
 var _l = require('lodash');
 var _u = require('underscore');
@@ -9,7 +9,7 @@ var data = objectFilter.data;
 var pred = objectFilter.pred;
 
 
-module.exports = createTest({
+module.exports = createBench({
   name: 'Object filter',
   etalon: objectFilter.etalon,
   tests: {

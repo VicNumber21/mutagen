@@ -1,6 +1,6 @@
 var Mutagen = require('../../../src/mutagen');
 var arrayFilterMap = require('../helpers/arrayFilterMap');
-var createTest = require('../helpers/compareFactory');
+var createBench = require('../helpers/createBench');
 
 var _l = require('lodash');
 var _u = require('underscore');
@@ -10,7 +10,7 @@ var mapFn = arrayFilterMap.mapFn;
 var pred = arrayFilterMap.pred;
 
 
-module.exports = createTest({
+module.exports = createBench({
   name: 'Array filter map',
   etalon: arrayFilterMap.etalon,
   tests: {

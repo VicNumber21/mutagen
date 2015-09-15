@@ -2,7 +2,7 @@ var _ = require('underscore');
 var expect = require('chai').expect;
 
 
-var createCompareTest = function (spec) {
+var createBench = function (spec) {
   var actual;
 
   var test = {
@@ -23,4 +23,4 @@ var createCompareTest = function (spec) {
   return test;
 };
 
-module.exports = createCompareTest;
+module.exports = createBench;

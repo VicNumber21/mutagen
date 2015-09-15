@@ -1,6 +1,6 @@
 var Mutagen = require('../../../src/mutagen');
 var arrayMap = require('../helpers/arrayMap');
-var createTest = require('../helpers/compareFactory');
+var createBench = require('../helpers/createBench');
 
 var _l = require('lodash');
 var _u = require('underscore');
@@ -9,7 +9,7 @@ var data = arrayMap.data;
 var mapFn = arrayMap.mapFn;
 
 
-module.exports = createTest({
+module.exports = createBench({
   name: 'Array map',
   etalon: arrayMap.etalon,
   tests: {
