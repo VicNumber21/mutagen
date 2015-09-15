@@ -1,12 +1,12 @@
-var Core = {
+var Control = {
   End: {},
   Skip: {},
 
-    //TODO rename Core to Control
   compose: function (mutators) {
     return function (item) {
       for (var i = 0; i < mutators.length; ++i) {
-        if (Core.Skip === item || Core.End === item) break;
+        if (Control.Skip === item || Control.End === item)
+          break;
 
         item = mutators[i](item);
       }
@@ -23,4 +23,4 @@ var Core = {
 };
 
 
-module.exports = Core;
+module.exports = Control;

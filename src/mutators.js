@@ -1,9 +1,9 @@
-var Core = require('./core');
+var Control = require('./control');
 
 module.exports = function (api) {
   api.addMutator('filter', function (pred) {
     return function (item) {
-      return pred(item) ? item : Core.Skip;
+      return pred(item) ? item : Control.Skip;
     };
   });
 

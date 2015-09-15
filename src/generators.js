@@ -1,11 +1,11 @@
-var Core = require('./core');
+var Control = require('./control');
 
 module.exports = function (api) {
   api.addGenerator('fromArray', 'value', function (arr) {
     var index = 0;
 
     return function () {
-      return index < arr.length ? arr[index++] : Core.End;
+      return index < arr.length ? arr[index++] : Control.End;
     };
   });
 
@@ -15,7 +15,7 @@ module.exports = function (api) {
 
     return function () {
       var key;
-      return index < keys.length ? (key = keys[index++], {key: key, value: obj[key]}) : Core.End;
+      return index < keys.length ? (key = keys[index++], {key: key, value: obj[key]}) : Control.End;
     };
   });
 };

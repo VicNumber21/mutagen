@@ -1,4 +1,4 @@
-var Core = require('./core');
+var Control = require('./control');
 
 var Runner = function (gen) {
   this._gen = gen;
@@ -11,12 +11,13 @@ Runner.prototype.run =  function (appender, target) {
     this._mutators.push(targetUnknown? appender: appender(target));
   }
 
-  var mutator = Core.compose(this._mutators);
-  var mutant = Core.mutate(this._gen, mutator);
+  var mutator = Control.compose(this._mutators);
+  var mutant = Control.mutate(this._gen, mutator);
 
   var result = target;
-  for (var it = mutant(); it !== Core.End; it = mutant()) {
-    if (it !== Core.Skip) result = it;
+  for (var it = mutant(); it !== Control.End; it = mutant()) {
+    if (it !== Control.Skip)
+      result = it;
   }
 
   return result;

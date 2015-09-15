@@ -1,65 +1,39 @@
 var api = require('./api');
-require('./core');
+var Control = require('./control');
 
 var Mutagen = {
   for: api.generators
 };
 
-//TODO implementation below should be in Core or Control.
-var Skip = {};
-var End = {};
-
-Mutagen.Control = {
-  End: End,
-  Skip: Skip,
+Mutagen.Control = Control;
 
   //TODO remove iteration builder and use Runner here instead?
-  iterationBuilder: function (options) {
-    var empty = options.empty;
-    var generator = options.generator;
-    var appender = options.appender;
+Mutagen.Control.iterationBuilder = function (options) {
+  var empty = options.empty;
+  var generator = options.generator;
+  var appender = options.appender;
 
-    return function (source, mutators, target) {
-      mutators = mutators || [];
-      target = target || empty();
+  return function (source, mutators, target) {
+    mutators = mutators || [];
+    target = target || empty();
 
-      var gen = generator(source);
-      var mutator = Mutagen.Control.compose([].concat(mutators, [appender(target)]));
-      var mutant = Mutagen.Control.mutate(gen, mutator);
+    var gen = generator(source);
+    var mutator = Mutagen.Control.compose([].concat(mutators, [appender(target)]));
+    var mutant = Mutagen.Control.mutate(gen, mutator);
 
-      var ret = target;
-      for (var it = mutant(); it !== End; it = mutant()) {
-        if (it !== Skip) ret = it;
-      }
+    var ret = target;
+    for (var it = mutant(); it !== Control.End; it = mutant()) {
+      if (it !== Control.Skip) ret = it;
+    }
 
-      return ret;
-    };
-  },
-
-  compose: function (mutators) {
-    return function (item) {
-      for (var i = 0; i < mutators.length; ++i) {
-        if (Skip === item || End === item)
-          break;
-
-        item = mutators[i](item);
-      }
-
-      return item;
-    };
-  },
-
-  mutate: function (gen, mutator) {
-    return function () {
-      return mutator(gen());
-    };
-  }
+    return ret;
+  };
 };
 
 Mutagen.Mutator = {
   filter: function (pred) {
     return function (item) {
-      return pred(item)? item: Skip;
+      return pred(item)? item: Control.Skip;
     };
   },
 
@@ -83,7 +57,7 @@ Mutagen.Options = {
       var index = 0;
 
       return function () {
-          return index < arr.length? arr[index++]: End;
+          return index < arr.length? arr[index++]: Control.End;
       };
     },
     appender: function (array) {
@@ -105,7 +79,7 @@ Mutagen.Options = {
       return function () {
         var key;
         return index < keys.length? (key = keys[index++], {key: key, value: obj[key]})
-                                  : End;
+                                  : Control.End;
       };
     },
     appender: function (obj) {
