@@ -29,7 +29,7 @@ Mutagen.Control = {
 
       var ret = target;
       for (var it = mutant(); it !== End; it = mutant()) {
-        ret = it;
+        if (it !== Skip) ret = it;
       }
 
       return ret;

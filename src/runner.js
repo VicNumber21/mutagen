@@ -14,11 +14,12 @@ Runner.prototype.run =  function (appender, target) {
   var mutator = Core.compose(this._mutators);
   var mutant = Core.mutate(this._gen, mutator);
 
+  var result = target;
   for (var it = mutant(); it !== Core.End; it = mutant()) {
-    target = it;
+    if (it !== Core.Skip) result = it;
   }
 
-  return target;
+  return result;
 };
 
 Runner.addMutator = function (name, mutator, options) {

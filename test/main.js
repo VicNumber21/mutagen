@@ -1,7 +1,7 @@
 var runner = require('./runners/mocha');
 
 var specs = [
-  require('./specs/poc')
+  require('./specs/array'),
 ];
 
 for (var i = 0; i < specs.length; ++i) {

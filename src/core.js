@@ -6,9 +6,7 @@ var Core = {
   compose: function (mutators) {
     return function (item) {
       for (var i = 0; i < mutators.length; ++i) {
-        if (Core.Skip === item || Core.End === item) {
-          break;
-        }
+        if (Core.Skip === item || Core.End === item) break;
 
         item = mutators[i](item);
       }
