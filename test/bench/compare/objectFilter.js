@@ -14,7 +14,11 @@ module.exports = createBench({
   etalon: objectFilter.etalon,
   tests: {
     'Mutagen Core': function () {
-      return Mutagen.mutateObject(data, [Mutagen.Mutator.filter(pred)]);
+      var MutObject = Mutagen.Options.object;
+      var generator = MutObject.generator(data);
+      var mutators = [Mutagen.Mutator.filter(pred)];
+      var appender = MutObject.appender(MutObject.empty());
+      return Mutagen.Control.run(generator, mutators, appender);
     },
     'Mutagen API': function () {
       return Mutagen.for.value.and.key.fromObject(data)

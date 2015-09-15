@@ -15,10 +15,11 @@ module.exports = createBench({
   etalon: arrayFilterMap.etalon,
   tests: {
     'Mutagen Core': function () {
-      return Mutagen.mutateArray(data, [
-        Mutagen.Mutator.filter(pred),
-        Mutagen.Mutator.map(mapFn)
-      ]);
+      var MutArray = Mutagen.Options.array;
+      var generator = MutArray.generator(data);
+      var mutators = [Mutagen.Mutator.filter(pred), Mutagen.Mutator.map(mapFn)];
+      var appender = MutArray.appender(MutArray.empty());
+      return Mutagen.Control.run(generator, mutators, appender);
     },
     'Mutagen API': function () {
       return Mutagen.for.value.fromArray(data)

@@ -7,29 +7,6 @@ var Mutagen = {
 
 Mutagen.Control = Control;
 
-  //TODO remove iteration builder and use Runner here instead?
-Mutagen.Control.iterationBuilder = function (options) {
-  var empty = options.empty;
-  var generator = options.generator;
-  var appender = options.appender;
-
-  return function (source, mutators, target) {
-    mutators = mutators || [];
-    target = target || empty();
-
-    var gen = generator(source);
-    var mutator = Mutagen.Control.compose([].concat(mutators, [appender(target)]));
-    var mutant = Mutagen.Control.mutate(gen, mutator);
-
-    var ret = target;
-    for (var it = mutant(); it !== Control.End; it = mutant()) {
-      if (it !== Control.Skip) ret = it;
-    }
-
-    return ret;
-  };
-};
-
 Mutagen.Mutator = {
   filter: function (pred) {
     return function (item) {
@@ -90,9 +67,6 @@ Mutagen.Options = {
     }
   }
 };
-
-Mutagen.mutateArray = Mutagen.Control.iterationBuilder(Mutagen.Options.array);
-Mutagen.mutateObject = Mutagen.Control.iterationBuilder(Mutagen.Options.object);
 
 
 module.exports = Mutagen;
