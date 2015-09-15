@@ -1,3 +1,6 @@
+[![Build Status](https://semaphoreci.com/api/v1/projects/e966215b-848c-445b-a248-83c9c84ccd43/332160/badge.svg)](https://semaphoreci.com/vic/mutagen)
+[![Code Climate](https://codeclimate.com/github/VicNumber21/mutagen/badges/gpa.svg)](https://codeclimate.com/github/VicNumber21/mutagen)
+
 mutagen
 =======
 
