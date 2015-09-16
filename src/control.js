@@ -1,6 +1,6 @@
 var Control = {
-  End: {},
-  Skip: {},
+  End: '\uFFFF',
+  Skip: '\uFFFE',
 
   compose: function (mutators) {
     return function (item) {
@@ -22,18 +22,18 @@ var Control = {
   },
 
   run: function (generator, mutators, appender, target) {
-    if (typeof appender !== 'undefined') {
-      var targetUnknown = (typeof target === 'undefined');
-      mutators.push(targetUnknown? appender: appender(target));
-    }
-
-    var mutator = Control.compose(mutators);
-    var mutant = Control.mutate(generator, mutator);
-
+    var append = target && appender? appender(target): appender;
     var result = target;
-    for (var it = mutant(); it !== Control.End; it = mutant()) {
-      if (it !== Control.Skip)
-        result = it;
+
+    outer: for (var item = generator(); item !== Control.End; item = generator()) {
+      for (var i = 0; i < mutators.length; ++i) {
+        item = mutators[i](item);
+
+        if (Control.Skip === item || Control.End === item)
+          continue outer;
+      }
+
+      result = append? append(item): item;
     }
 
     return result;
