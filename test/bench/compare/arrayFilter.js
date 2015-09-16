@@ -4,6 +4,7 @@ var createBench = require('../helpers/createBench');
 
 var _l = require('lodash');
 var _u = require('underscore');
+var Lazy = require('lazy.js');
 
 var data = arrayFilter.data;
 var pred = arrayFilter.pred;
@@ -30,6 +31,9 @@ module.exports = createBench({
     },
     'Underscore Core': function () {
       return _u.filter(data, pred);
+    },
+    'Lazy': function () {
+      return Lazy(data).filter(pred).toArray();
     },
     'Lodash Chain': function () {
       return _l(data).filter(pred).value();

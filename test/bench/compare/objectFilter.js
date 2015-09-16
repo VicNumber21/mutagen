@@ -4,9 +4,11 @@ var createBench = require('../helpers/createBench');
 
 var _l = require('lodash');
 var _u = require('underscore');
+var Lazy = require('lazy.js');
 
 var data = objectFilter.data;
 var pred = objectFilter.pred;
+var predMut = objectFilter.predMut;
 
 
 module.exports = createBench({
@@ -16,36 +18,39 @@ module.exports = createBench({
     'Mutagen Core': function () {
       var MutObject = Mutagen.Options.object;
       var generator = MutObject.generator(data);
-      var mutators = [Mutagen.Mutator.filter(pred)];
+      var mutators = [Mutagen.Mutator.filter(predMut)];
       var appender = MutObject.appender(MutObject.empty());
       return Mutagen.Control.run(generator, mutators, appender);
     },
     'Mutagen API': function () {
       return Mutagen.for.value.and.key.fromObject(data)
-        .filter(pred)
+        .filter(predMut)
         .toObject();
     },
     'Lodash Core': function () {
       return _l.reduce(data, function (acc, x, key) {
-        if (pred({key: key, value: x})) acc[key] = x;
+        if (pred(x, key)) acc[key] = x;
         return acc;
       }, {});
     },
     'Underscore Core': function () {
       return _u.reduce(data, function (acc, x, key) {
-        if (pred({key: key, value: x})) acc[key] = x;
+        if (pred(x, key)) acc[key] = x;
         return acc;
       }, {});
     },
+    'Lazy': function () {
+      return Lazy(data).filter(pred).toObject();
+    },
     'Lodash Chain': function () {
       return _l.chain(data).reduce(function (acc, x, key) {
-        if (pred({key: key, value: x})) acc[key] = x;
+        if (pred(x, key)) acc[key] = x;
         return acc;
       }, {}).value();
     },
     'Underscore Chain': function () {
       return _u.chain(data).reduce(function (acc, x, key) {
-        if (pred({key: key, value: x})) acc[key] = x;
+        if (pred(x, key)) acc[key] = x;
         return acc;
       }, {}).value();
     },
@@ -56,10 +61,10 @@ module.exports = createBench({
 
       for (var i = 0; i < length; ++i) {
         var key = keys[i];
-        var item = {key: key, value: data[key]};
+        var x = data[key];
 
-        if (pred(item))
-          result[key] = data[key];
+        if (pred(x, key))
+          result[key] = x;
       }
 
       return result;

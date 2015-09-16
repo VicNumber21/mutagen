@@ -10,12 +10,13 @@
   "devDependencies": {
     "chai": "^1.9.2",
     "gulp": "^3.8.8",
+    "gulp-benchmark": "~1.1.0",
     "gulp-jshint": "^1.8.6",
     "gulp-mocha": "^1.1.1",
-    "lodash": "^2.4.1",
-    "underscore": "^1.7.0",
+    "lazy.js": "^0.4.2",
+    "lodash": "^3.10.1",
     "minimist": "~1.1.0",
-    "gulp-benchmark": "~1.1.0"
+    "underscore": "^1.8.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
