@@ -15,7 +15,10 @@ var createBench = function (spec) {
       return acc;
     }, {}),
     onComplete: function () {
-      expect(actual).to.be.deep.equal(spec.etalon);
+      if (typeof spec.etalon !== 'undefined'){
+        expect(actual).to.be.deep.equal(spec.etalon);
+      }
+
       console.info('               \\/\\/\\/ ----> OK');
     }
   };
